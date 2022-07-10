@@ -1,0 +1,45 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Anim/Units/Swordsman/SwordsmanAttack.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Scripts/UnitSM.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Unit.gd" type="Script" id=3]
+[ext_resource path="res://Anim/Units/Swordsman/SwordsmanDead.tres" type="SpriteFrames" id=4]
+[ext_resource path="res://Anim/Units/Worker/WorkerIdle.tres" type="SpriteFrames" id=5]
+[ext_resource path="res://Anim/Units/Worker/WorkerWork.tres" type="SpriteFrames" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 2.5, 2 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 120.037
+
+[node name="Unit" type="KinematicBody2D" groups=["units"]]
+script = ExtResource( 3 )
+idle_anim = ExtResource( 6 )
+dead_anim = ExtResource( 4 )
+attack_anim = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 11.5, 16 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = ExtResource( 5 )
+frame = 1
+playing = true
+centered = false
+
+[node name="StopTimer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="UnitSM" type="Node2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="VisionRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionRange"]
+position = Vector2( 14, 18 )
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="VisionRange" to="." method="_on_VisionRange_body_entered"]
+[connection signal="body_exited" from="VisionRange" to="." method="_on_VisionRange_body_exited"]

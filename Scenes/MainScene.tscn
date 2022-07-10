@@ -1,3 +1,104 @@
-[gd_scene format=2]
+[gd_scene load_steps=15 format=2]
 
-[node name="MainScene" type="Node2D"]
+[ext_resource path="res://Tilesets/Water.tres" type="TileSet" id=1]
+[ext_resource path="res://Tilesets/Springs.tres" type="TileSet" id=2]
+[ext_resource path="res://Scripts/Game.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/SelectDraw.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Camera.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Map.gd" type="Script" id=6]
+[ext_resource path="res://Tilesets/Dirt.tres" type="TileSet" id=7]
+[ext_resource path="res://Tilesets/Objects.tres" type="TileSet" id=8]
+[ext_resource path="res://Tilesets/Grass.tres" type="TileSet" id=10]
+[ext_resource path="res://Scripts/Pathfinder.gd" type="Script" id=13]
+[ext_resource path="res://Sprites/CellOccupied.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/CellFree.png" type="Texture" id=15]
+
+[sub_resource type="CanvasItemMaterial" id=3]
+blend_mode = 1
+light_mode = 2
+
+[sub_resource type="TileSet" id=2]
+0/name = "CellFree.png 0"
+0/texture = ExtResource( 15 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "CellOccupied.png 1"
+1/texture = ExtResource( 14 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 0, 0, 32, 32 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Pathfinder" type="Node2D" parent="."]
+script = ExtResource( 13 )
+
+[node name="Map" type="Node" parent="."]
+script = ExtResource( 6 )
+
+[node name="Land" type="TileMap" parent="Map"]
+tile_set = ExtResource( 7 )
+cell_size = Vector2( 32, 32 )
+show_collision = true
+format = 1
+
+[node name="Water" type="TileMap" parent="Map"]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 32 )
+show_collision = true
+format = 1
+
+[node name="Grass" type="TileMap" parent="Map"]
+tile_set = ExtResource( 10 )
+cell_size = Vector2( 32, 32 )
+show_collision = true
+format = 1
+
+[node name="Objects" type="TileMap" parent="Map"]
+tile_set = ExtResource( 8 )
+cell_size = Vector2( 32, 32 )
+show_collision = true
+format = 1
+
+[node name="Springs" type="TileMap" parent="Map"]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 32, 32 )
+show_collision = true
+format = 1
+
+[node name="Grid" type="TileMap" parent="Map"]
+material = SubResource( 3 )
+tile_set = SubResource( 2 )
+cell_size = Vector2( 32, 32 )
+show_collision = true
+format = 1
+
+[node name="YSort" type="YSort" parent="Map"]
+
+[node name="SelectDraw" type="Node2D" parent="Map/YSort"]
+script = ExtResource( 4 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 646, 363 )
+current = true
+script = ExtResource( 5 )
